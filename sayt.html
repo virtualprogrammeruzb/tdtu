@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talaba Xabari</title>
+    <style>
+        /* Orqa fonni hackerlar stiliga moslab berish */
+        body {
+            font-family: 'Courier New', Courier, monospace;
+            margin: 0;
+            padding: 20px;
+            background-color: #0a0a0a;
+            color: #33ff00; /* Yashil matn */
+            overflow: hidden;
+        }
+        .container {
+            width: 50%;
+            margin: auto;
+            background-color: rgba(0, 0, 0, 0.7); /* Shaffof fon */
+            padding: 20px;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.3); /* Yashil soyalar */
+            border-radius: 10px;
+            border: 2px solid #33ff00;
+        }
+        h2 {
+            text-align: center;
+            font-size: 2rem;
+            margin-bottom: 20px;
+            text-shadow: 0px 0px 10px #33ff00;
+        }
+        label {
+            margin: 10px 0 5px;
+            display: block;
+        }
+        input, select {
+            width: 100%;
+            padding: 10px;
+            margin: 5px 0 20px;
+            border: 1px solid #33ff00;
+            border-radius: 4px;
+            background-color: #0a0a0a;
+            color: #33ff00;
+            font-size: 1rem;
+        }
+        button {
+            padding: 10px 20px;
+            background-color: #33cc33;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1rem;
+            box-shadow: 0 0 10px rgba(0, 255, 0, 0.4);
+        }
+        button:hover {
+            background-color: #29a329;
+        }
+        .contact-btn {
+            margin-top: 20px;
+            display: block;
+            text-align: center;
+            padding: 10px 20px;
+            background-color: #0088cc;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        .contact-btn:hover {
+            background-color: #0077b3;
+        }
+
+        /* Guruh raqami faqat sonlar bo'lishi uchun */
+        input[type="number"] {
+            -moz-appearance: textfield;  /* Firefox uchun sonlarni formatlash */
+        }
+        input[type="number"]::-webkit-outer-spin-button,
+        input[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Talabaga yordam)</h2>
+    <form id="studentForm">
+        <label for="subject">Fan:</label>
+        <input type="text" id="subject" name="subject" required placeholder="Fan nomini kiriting">
+
+        <label for="department">Kafedra:</label>
+        <input type="text" id="department" name="department" required placeholder="Kafedra nomini kiriting">
+
+        <label for="group">Guruh raqami:</label>
+        <input type="number" id="group" name="group" required placeholder="Guruh raqamini kiriting" min="1">
+
+        <label for="fullName">Ism va Familiya:</label>
+        <input type="text" id="fullName" name="fullName" required placeholder="Ism va familiyangizni kiriting">
+
+        <button type="submit">Jonatish</button>
+    </form>
+
+    <!-- Bog'lanish tugmasi -->
+    <a href="t.me://hemis_tdtu_bot" class="contact-btn" target="_blank">Bog'lanish</a>
+</div>
+
+<script>
+    document.getElementById("studentForm").addEventListener("submit", function(event){
+        event.preventDefault();
+
+        // Ma'lumotlarni olish
+        const subject = document.getElementById("subject").value;
+        const department = document.getElementById("department").value;
+        const group = document.getElementById("group").value;
+        const fullName = document.getElementById("fullName").value;
+
+        // Telegram bot API'ga so'rov yuborish
+        const token = '7255700730:AAFMa967RsIau7oO8e965qmiR-YlnCySw50';  // Sizning bot tokeningiz
+        const chatId = '6282750035';  // Sizning chat ID (Telegramda botdan @username yordamida topish mumkin)
+
+        // Yuboriladigan xabar matni
+        const message = `Yangi xabar:\n\nFan: ${subject}\nKafedra: ${department}\nGuruh: ${group}\nTalaba: ${fullName}`;
+
+        // URL bilan Telegram API'ga so'rov yuborish
+        const url = `https://api.telegram.org/bot${token}/sendMessage?chat_id=${chatId}&text=${encodeURIComponent(message)}`;
+
+        // Fetch yordamida so'rov yuborish
+        fetch(url)
+            .then(response => response.json())
+            .then(data => {
+                if (data.ok) {
+                    alert("Xabar yuborildi!");
+                } else {
+                    alert("Xabar yuborishda xato yuz berdi.");
+                }
+            })
+            .catch(error => {
+                console.error("Xatolik:", error);
+                alert("Xabar yuborishda xato yuz berdi.");
+            });
+
+        // Formani tozalash
+        document.getElementById("studentForm").reset();
+    });
+</script>
+
+</body>
+</html>
